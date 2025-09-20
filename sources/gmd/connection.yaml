@@ -3,3 +3,6 @@ name: gmd
 type: duckdb
 options:
   filename: gmd.duckdb
+init:
+  - INSTALL spatial
+  - LOAD spatial
