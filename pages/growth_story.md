@@ -59,7 +59,7 @@ I use <strong>GDP per capita</strong> to gauge development. While GDP per capita
 
 In this analysis, I delve into the reasons behind the divergent development paths of South Korea and Japan compared to Argentina and Brazil between 1950 and 1990. 
 
-I will explore three main hypotheses:
+I explore three main hypotheses:
 1. **Openness to trade**: Integrating into the global economy forces domestic industries to become more competitive, generates currency reserves, and allows countries to specialise based on their comparative advantages.
 2. **State policies to spur long-term capital formation**: Deliberate state intervention makes sense if the goal is long-term globally competitive industrialisation rather than short-term consumption.
 3. **Monetary discipline**: Maintaining strict, disciplined control over money supply growth lays the foundations for economic stability and, consequently, creates the necessary conditions for sustainable growth.
@@ -68,7 +68,7 @@ I will explore three main hypotheses:
 
 Both imports and exports as a share of GDP have been significantly higher in East Asia than Latin America. 
 
-This reflects not only a more open trade policy, but also a more competitive economy that has to innovate constantly to perform well and stay ahead. This results in more long-term value creation and productivity growth.
+This reflects not only a more open trade policy, but also a more competitive economy that has to innovate constantly to perform well and stay ahead.
 
 <LineChart 
     data={regional_comparison_external_sector} 
@@ -164,7 +164,7 @@ Instead, Argentina and Brazil focused on consumption, which only serves the shor
 
 ### Monetary discipline
 <div style="padding: 15px; border: 1px solid #ddd; border-left: 5px solid #f0ad4e; background-color: #fcf8e3;">
-  Notice the difference in the Y-axis in the charts below. It highlights how Latin America enacted fundementally unsustainable policies, which culminated in extremely high volatility and crisis at the end of the 1980s.
+  Notice the difference in the Y-axis in the charts below. It highlights how Latin America's unsustainable policies culminated in extremely high volatility and crisis at the end of the 1980s.
 </div>
 <br/>
 The persistent expansion of M2² supply in Latin America led to an erosion of confidence in the currency and banking system. It reached a tipping point in the late 1980s.
@@ -248,7 +248,7 @@ East Asia's predictable low short-term interest rate environment encouraged the 
 </Grid>
 
 ---
-### Put together, these policies bridged the gap with the West
+### Put together, these policies helped East Asia bridge the gap with the West
 
 <LineChart
     data={europe_latam_ea_gdp}
@@ -297,7 +297,7 @@ East Asia's predictable low short-term interest rate environment encouraged the 
 
 While these policies worked well for Japan and South Korea until the early 1990s, they eventually reached their limits. Growth models do not last forever, and it is important to adapt to changing circumstances.
 
-South Korea has arguably been able to adapt much better - it's managed to maintain an explosive growth trajectory over time. In contrast, Japan plateaued for most of the 1990s and early 21<sup>st</sup> Century.
+South Korea was able to adapt much better - it managed to maintain an explosive growth trajectory over time. In contrast, Japan plateaued for most of the 1990s and early 21<sup>st</sup> Century.
 
 <div style="padding: 15px; border: 1px solid #ddd; border-left: 5px solid #f0ad4e; background-color: #fcf8e3;">
   Click<a href="korea_japan_1990_crisis" style="background-color: #fffbe6; padding: 2px 6px; border-radius: 4px; font-weight: bold;">here</a>to see a detailed analysis of this divergence. 

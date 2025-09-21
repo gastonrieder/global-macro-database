@@ -49,11 +49,11 @@ title: "Two different ways of responding to a crisis: how South Korea outgrew Ja
 
 # 2. Fiscal discipline and continued investment in long-term industrialisation explain South Korea's stronger growth vs. Japan
 
-As the crisis impacted customer demand, Japan redirected its fiscal policy towards short-term stimulus, increasing government spending to boost demand.
+In response to the crisis, Japan redirected its fiscal policy towards short-term stimulus.
 
 This led to a vicious cycle of rising fiscal deficits and debt, which constrained Japan's ability to invest in the long-term. 
 
-Indeed, we've seen that Japan's growth has been weak after the crisis. This strongly suggests that fiscal policy has not been effective. 
+Indeed, we've seen that Japan's growth has been weak after the crisis. 
 
 <Grid cols=2>
 <BarChart
@@ -77,11 +77,8 @@ Indeed, we've seen that Japan's growth has been weak after the crisis. This stro
 />
 </Grid>
 
-On the other hand, South Korea embraced fiscal discipline, reorientating its economy back on track.
+On the other hand, South Korea embraced fiscal discipline, reorientating its economy back on track with a focus on long-term investment.
 
-South Korea kept government spending in check and retained a focus on fixed investments, which are key for long-term capital formation and productivity growth. 
-
-This approach helped South Korea maintain a more sustainable fiscal position, paving the way for a quick recovery and more sustainable economic growth down the line.
 
 <Grid cols=2>
 <LineChart
@@ -107,7 +104,7 @@ This approach helped South Korea maintain a more sustainable fiscal position, pa
 
 # 3. This helped South Korea remain competitive in global markets and sustain its export-led growth model
 
-South Korea's continued high investment rate allowed it to stay abreast of technological advancements, just as the world stepped into the digital age. This has been a major factor behind its continued strong export performance. 
+South Korea's continued high investment rate allowed it to stay abreast of technological advancements, just as the world stepped into the digital age. 
 
 While still a major global player, Japan failed to adapt as quickly because of a lack of fiscal discipline and a focus on short-term stimulus. This has led to a gradual loss in competitiveness. 
 
