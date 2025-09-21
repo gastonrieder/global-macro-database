@@ -167,7 +167,7 @@ Instead, Argentina and Brazil focused on consumption, which only serves the shor
   Notice the difference in the Y-axis in the charts below. It highlights how Latin America enacted fundementally unsustainable policies, which culminated in extremely high volatility and crisis at the end of the 1980s.
 </div>
 <br/>
-The persistent expansion of M2² supply in Latin America led to an erosion of confidence in the currency and banking system. 
+The persistent expansion of M2² supply in Latin America led to an erosion of confidence in the currency and banking system. It reached a tipping point in the late 1980s.
 <Grid cols=2>
 <Group>
 <LineChart 
