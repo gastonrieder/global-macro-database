@@ -1,51 +1,342 @@
 ---
-title: "Growth in all its forms"
+title: "What we can learn from East Asia's industrialisation after WWII"
 ---
-# Executive summary
+# 1. Since 1945, only a few developing countries have successfully closed the development gap with the West
 
-To be completed later
+The development gap between countries is stark. Can we overcome it? Latin Americans often see the disparity between developed and developing countries as a structural irreversible process. 
 
-# 1. Most countries are stuck in their development paths - can they escape?
+In this analysis I compare two major Latin American economies, <strong>Argentina</strong> and <strong>Brazil</strong>, with two East Asian economies that have successfully transitioned to developed status: <strong>Japan</strong> and <strong>South Korea</strong>.
 
-The development gap between countries is stark. Can governments overcome it? Latin Americans often see the disparity between developed and developing countries as a structural irreversible process. 
+I use <strong>GDP per capita</strong> to gauge development. While GDP per capita does not account for social factors (eg., access to education, life expectancy, income inequality), it is still a good proxy metric for overall economic well-being. 
 
-If they limit the comparison to Latin America and Western countries, this is true. 
+<div style="padding: 15px; border: 1px solid #ddd; border-left: 5px solid #f0ad4e; background-color: #fcf8e3;">
+  For simplicity, whenever I refer to "Latin America" in this analysis, I mean Argentina and Brazil. Whenever I refer to "East Asia", I mean Japan and South Korea.
+</div>
 
-```sql europe_latam_gdp
-SELECT
-  year,
-  SUM(rGDP_USD) / SUM(pop) as rgdp_pc_usd,
-  CASE
-    WHEN iso3 IN ('GBR', 'FRA', 'ITA', 'ESP', 'USA') THEN 'Western Europe+USA'
-    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-  END as region
-FROM gmd
-WHERE year BETWEEN 1900 AND 2025
-  AND iso3 IN ('GBR', 'FRA', 'ARG', 'BRA', 'ITA', 'ESP', 'USA')
-GROUP BY ALL
-ORDER BY year
-```
+### Over a century later, there is still a persistent development gap between Latin America and Western Europe
 
 <LineChart
     data={europe_latam_gdp}
     x=year
     y=rgdp_pc_usd
     series=region
-    title='125 years later, still a persistent gap in GDP per capita'
-    subtitle="GDP per Capita: Europe vs. Latin America (1900-Present)"
+    subtitle="GDP per Capita: Western Europe vs. Latin America (1900-Present)"
     yFmt="$#,##0"
     downloadableData=false
     downloadableImage=false
-    >
-    <ReferenceArea 
-      xMin='1900' 
-      xMax='1910' 
-      label='GDP per capita gap: 5:1' 
-      labelPosition='center'
+  >
+      <ReferenceArea 
+      xMin='2020' 
+      xMax='2025' 
       color=info/>
+      <Callout x=2023 y=36500 labelPosition=center symbol=none align=left>
+      Latin America has barely reduced its GDP per capita gap with Western Europe
+      </Callout>
 </LineChart>
 
-maybe a summary table here??? 
+<br/>
+
+### However, it took Korea and Japan less than 4 decades to catch up with the West
+
+<LineChart
+    data={europe_latam_ea_gdp}
+    x=year
+    y=rgdp_pc_usd
+    series=region
+    subtitle="GDP per Capita: East Asia vs Western Europe vs. Latin America (1900-Present)"
+    yFmt="$#,##0"
+    colorPalette={['#7c828dff','#cccfd5ff','#103ea1ff']}
+    downloadableData=false
+    downloadableImage=false
+    >
+  <ReferenceArea xMin='1950' xMax='1990' color=info label='Korea and Japan become developed countries'/>
+
+</LineChart>
+
+---
+
+# 2. Three major factors explain why South Korea and Japan succeeded while Argentina and Brazil did not (1950s–1990s)
+
+In this analysis, I delve into the reasons behind the divergent development paths of South Korea and Japan compared to Argentina and Brazil between 1950 and 1990. 
+
+I will explore three main hypotheses:
+1. **Openness to trade**: Integrating into the global economy forces domestic industries to become more competitive, generates currency reserves, and allows countries to specialise based on their comparative advantages.
+2. **State policies to spur long-term capital formation**: Deliberate state intervention makes sense if the goal is long-term globally competitive industrialisation rather than short-term consumption.
+3. **Monetary discipline**: Maintaining strict, disciplined control over money supply growth lays the foundations for economic stability and, consequently, creates the necessary conditions for sustainable growth.
+
+### Openness to trade
+
+Both imports and exports as a share of GDP have been significantly higher in East Asia than Latin America. 
+
+This reflects not only a more open trade policy, but also a more competitive economy that has to innovate constantly to perform well and stay ahead. This results in more long-term value creation and productivity growth.
+
+<LineChart 
+    data={regional_comparison_external_sector} 
+    x=year 
+    y=trade_openness 
+    series=region 
+    title="Japan and Korea embraced open trade, while Argentina and Brazil remained stuck in protectionism"
+    subtitle="Trade openness (Exports + Imports as % of GDP)" 
+    yFmt="0.0%"
+    downloadableData=false
+    downloadableImage=false>
+</LineChart>
+
+As a result, Japan and Korea consistently run current account surpluses. This has probably generated a virtuous cycle: higher savings and investment, leading to greater productivity and competitiveness.
+
+<LineChart 
+    data={regional_comparison_external_sector} 
+    x=year 
+    y=CA_GDP 
+    series=region 
+    title="Japan and Korea's export-led growth model pays off"
+    subtitle="Current account balance (% GDP) (1950–1990)" 
+    yFmt="0.0%"
+    downloadableData=false
+    downloadableImage=false
+    >
+    <ReferenceArea xMin=1968 xMax=1990 yMin=0 yMax=0.04 label="Consistent current account surpluses" color=base-content-muted border=true/>
+</LineChart>
+
+<br/>
+
+### State policies to spur long-term capital formation
+
+<LineChart 
+    data={regional_comparison_gov_expenditure} 
+    x=year 
+    y=govexp_GDP 
+    series=region 
+    title='At first glance, both regions have had similar levels of government expenditure'
+    subtitle="Government Expenditure (% of GDP) (1950–1990)" 
+    yFmt="0%"
+    downloadableData=false
+    downloadableImage=false
+>
+    <ReferenceArea xMin=1950 xMax=1980 yMin=0.07 yMax=0.25 label="Similar levels of gov. expenditure" color=base-content-muted border=true/>
+</LineChart>
+
+<Grid cols=2>
+<Group>
+However, from the outset Japan and Korea invested heavily in their economies
+<LineChart 
+    data={regional_comparison_investment} 
+    x=year 
+    y=inv_GDP 
+    series=region 
+    subtitle="Investment (% GDP) (1950–1990)" 
+    yFmt="0%"
+    yMax=0.5
+    downloadableData=false
+    downloadableImage=false
+/>
+</Group>
+<Group>
+  The gap is significant for fixed investments, which reflect long-term capital formation
+<LineChart 
+    data={regional_comparison_investment} 
+    x=year 
+    y=finv_GDP 
+    series=region 
+    subtitle="Fixed investment (% GDP) (1950–1990)" 
+    yFmt="0%"
+    yMax=0.5
+    downloadableData=false
+    downloadableImage=false
+/>    </Group>
+
+</Grid>
+
+Instead, Argentina and Brazil focused on consumption, which only serves the short-term and is unsustainable in the long run.
+
+<LineChart 
+    data={regional_comparison_consumption} 
+    x=year 
+    y=cons_GDP 
+    series=region 
+    subtitle="Consumption (% GDP) (1960-1990; data only available from 1960)¹" 
+    yFmt="0.0%"
+    downloadableData=false
+    downloadableImage=false
+/>
+
+<br/>
+
+### Monetary discipline
+<div style="padding: 15px; border: 1px solid #ddd; border-left: 5px solid #f0ad4e; background-color: #fcf8e3;">
+  Notice the difference in the Y-axis in the charts below. It highlights how Latin America enacted fundementally unsustainable policies, which culminated in extremely high volatility and crisis at the end of the 1980s.
+</div>
+<br/>
+The persistent expansion of M2² supply in Latin America led to an erosion of confidence in the currency and banking system. 
+<Grid cols=2>
+<Group>
+<LineChart 
+    data={fiscal_comparison_1950_1982} 
+    x=year 
+    y=m2_growth 
+    series=region 
+    subtitle="M2 Growth (1950–1982)" 
+    yFmt="0%"
+    downloadableData=false
+    downloadableImage=false
+/> </Group>
+<Group>
+<LineChart 
+    data={fiscal_comparison_1983_1990} 
+    x=year 
+    y=m2_growth 
+    series=region 
+    subtitle="M2 Growth (1983–1990)" 
+    yFmt="0%"
+    downloadableData=false
+    downloadableImage=false
+/> </Group>
+</Grid>
+
+<Grid cols=2>
+<Group>
+Korea and Japan's policy was geared towards maintaining a low, stable inflation rate...
+<LineChart 
+    data={fiscal_comparison_1950_1982} 
+    x=year 
+    y=infl 
+    series=region 
+    subtitle="Inflation (CPI) (1950–1982)" 
+    yFmt="0%"
+    downloadableData=false
+    downloadableImage=false
+/> </Group>
+<Group>
+... by the end of the 80s, Argentina and Brazil's volatility culminated in a hyperinflation crisis. 
+<LineChart 
+    data={fiscal_comparison_1983_1990} 
+    x=year 
+    y=infl 
+    series=region 
+    subtitle="Inflation (CPI) (1983–1990)" 
+    yFmt="0%"
+    downloadableData=false
+    downloadableImage=false
+/> </Group>
+</Grid>
+
+<Grid cols=2>
+<Group>
+East Asia's predictable low short-term interest rate environment encouraged the private sector to invest in long-term industrialisation...
+<LineChart 
+    data={fiscal_comparison_1950_1982} 
+    x=year 
+    y=strate 
+    series=region 
+    subtitle="Short-term interest rates (1950–1982)³" 
+    yFmt="0%"
+    downloadableData=false
+    downloadableImage=false
+/> </Group>
+<Group>
+... while monetary authoritities in Latin America resorted to short-term interest rate hikes to fight the crisis, thus paralysing the economy.
+<LineChart 
+    data={fiscal_comparison_1983_1990} 
+    x=year 
+    y=strate 
+    series=region 
+    subtitle="Short-term interest rates (1983–1990)³" 
+    yFmt="0%"
+    downloadableData=false
+    downloadableImage=false
+/> </Group>
+</Grid>
+
+---
+### Put together, these policies bridged the gap with the West
+
+<LineChart
+    data={europe_latam_ea_gdp}
+    x=year
+    y=rgdp_pc_usd
+    series=region
+    subtitle="GDP per Capita: East Asia vs Western Europe vs. Latin America (1900-Present)"
+    yFmt="$#,##0"
+    colorPalette={['#7c828dff','#cccfd5ff','#103ea1ff']}
+    downloadableData=false
+    downloadableImage=false
+    >
+  <ReferenceArea xMin='1950' xMax='1990' color=info label='Korea and Japan become developed countries'/>
+
+</LineChart>
+
+<Grid cols=2>
+<BarChart
+    data={crisis_timeline_latam}
+    x=year
+    y=crisis_count
+    series=crisis_type
+    type=stacked
+    title="LatAm's short-term thinking made it crisis-prone..."
+    subtitle="Timeline of crises by type in Latin America (1950-1990)"
+    downloadableData=false
+    downloadableImage=false
+>
+</BarChart>
+
+<BarChart
+    data={crisis_timeline_ea}
+    x=year
+    y=crisis_count
+    series=crisis_type
+    type=stacked
+    title="... while East Asia built more stable foundations"
+    subtitle="Timeline of crises by type in East Asia (1950-1990)"
+    downloadableData=false
+    downloadableImage=false
+> 
+</BarChart>
+</Grid>
+
+# 3. Growth models don't last forever: how South Korea adapted after the 1990s and outgrew Japan
+
+While these policies worked well for Japan and South Korea until the early 1990s, they eventually reached their limits. Growth models do not last forever, and it is important to adapt to changing circumstances.
+
+South Korea has arguably been able to adapt much better - it's managed to maintain an explosive growth trajectory over time. In contrast, Japan plateaued for most of the 1990s and early 21<sup>st</sup> Century.
+
+<div style="padding: 15px; border: 1px solid #ddd; border-left: 5px solid #f0ad4e; background-color: #fcf8e3;">
+  Click<a href="korea_japan_1990_crisis" style="background-color: #fffbe6; padding: 2px 6px; border-radius: 4px; font-weight: bold;">here</a>to see a detailed analysis of this divergence. 
+</div>
+
+<LineChart
+    data={development_paths_korea_japan}
+    x=year
+    y=rgdp_pc_usd
+    series=countryname
+    title='South Korea has managed to maintain an explosive growth trajectory over time'
+    subtitle="GDP per Capita, 1950-Present"
+    yFmt="$#,##0"
+    downloadableData=false
+    downloadableImage=false
+>
+    <ReferenceArea xMin=1990 xMax=2025 yMin=25000 yMax=40000 label="Japan's growth has been much less spectacular" color=base-content-muted border=true/>
+</LineChart>
+
+---
+
+## SQL queries used in this page
+
+If the queries are hidden, click on the hamburger menu in the top right corner and then click on "Show Queries". 
+
+```sql europe_latam_gdp
+SELECT
+  year,
+  SUM(rGDP_USD) / SUM(pop) as rgdp_pc_usd,
+  CASE
+    WHEN iso3 IN ('GBR', 'FRA', 'ITA', 'ESP') THEN 'Western Europe'
+    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
+  END as region
+FROM gmd
+WHERE year BETWEEN 1900 AND 2025
+  AND iso3 IN ('GBR', 'FRA', 'ARG', 'BRA', 'ITA', 'ESP')
+GROUP BY ALL
+ORDER BY year
+```
 
 ```sql europe_latam_ea_gdp
 SELECT
@@ -53,7 +344,7 @@ SELECT
   --countryname,
   SUM(rGDP_USD) / SUM(pop) as rgdp_pc_usd,
   CASE
-    WHEN iso3 IN ('GBR', 'FRA', 'ITA', 'ESP') THEN 'Western Europe'
+    WHEN iso3 IN ('GBR', 'FRA', 'ITA', 'ESP',) THEN 'Western Europe'
     WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
     WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
   END as region
@@ -64,33 +355,19 @@ GROUP BY ALL
 ORDER BY year
 ```
 
-<LineChart
-    data={europe_latam_ea_gdp}
-    x=year
-    y=rgdp_pc_usd
-    series=region
-    title='Korea and Japan buck the trend, catching up with the West in 3-4 decades'
-    subtitle="GDP per Capita: East Asia vs Western Europe vs. Latin America (1900-Present)"
-    yFmt="$#,##0"
-    colorPalette={['#afb1b5ff','#afb1b5ff','#2563eb']}
-    downloadableData=false
-    downloadableImage=false
-    >
-  <ReferenceArea xMin='1950' xMax='1990' color=info/>
-
-</LineChart>
-
----
-
-# 2. How did South Korea and Japan succeed while Argentina and Brazil did not? (1950s–1990s)
-
-List hypotheses here and then we validate 
-
-1. **Openness to trade**: South Korea and Japan embraced open trade policies, while Argentina and Brazil remained protectionist. The divergence accelerated in the following decades. South Korea pursued an aggressive export-oriented strategy, coupled with high rates of investment. In contrast, the Latin American economies generally focused more on domestic consumption, often punctuated by cycles of import substitution, and were hit harder by external shocks like the 1970s oil crisis and the 1980s debt crisis.
-2. **Sustainable allocation of state resources**: Japan and South Korea effectively mobilized state resources to support industrial policy and infrastructure development, while Argentina and Brazil often misallocated resources, leading to inefficiencies and corruption.
-3. **Political stability and governance**: South Korea and Japan had more stable political environments and effective governance, while Argentina and Brazil faced political turmoil and corruption.
-
-## Openness to trade
+```sql regional_comparison_gov_expenditure
+SELECT
+  year,
+  CASE
+    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
+    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
+  END as region,
+  SUM(govexp / USDfx) / SUM(nGDP / USDfx) as govexp_GDP
+FROM gmd
+WHERE iso3 IN ('JPN', 'KOR', 'BRA', 'ARG') AND year BETWEEN 1950 AND 1990
+GROUP BY ALL
+ORDER BY year, region
+```
 
 ```sql regional_comparison_external_sector
 SELECT
@@ -109,109 +386,61 @@ GROUP BY ALL
 ORDER BY year, region
 ```
 
-<LineChart 
-    data={regional_comparison_external_sector} 
-    x=year 
-    y=trade_openness 
-    series=region 
-    title='Japan and Korea embraced open trade, while Argentina and Brazil remained stuck in protectionism'
-    subtitle="Trade Openness (Exports + Imports) / GDP)" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<LineChart 
-    data={regional_comparison_external_sector} 
-    x=year 
-    y=CA_GDP 
-    series=region 
-    title="As a result, Japan and Korea developed more competitive economies, leading to recurrent account surpluses"
-    subtitle="Current account balance as a share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-## Equally expanding states, but with different goals in mind 
-
-```sql regional_comparison_gov_finance
-SELECT
-  year,
-  CASE
-    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
-  END as region,
-  SUM(govdebt / USDfx) / SUM(nGDP / USDfx) as govdebt_GDP,
-  SUM(govrev / USDfx) / SUM(nGDP / USDfx) as govrev_GDP,
-  SUM(govtax / USDfx) / SUM(nGDP / USDfx) as govtax_GDP,
-  SUM(govdef / USDfx) / SUM(nGDP / USDfx) as govdef_GDP,
-  SUM(govexp / USDfx) / SUM(nGDP / USDfx) as govexp_GDP
-FROM gmd
-WHERE iso3 IN ('JPN', 'KOR', 'BRA', 'ARG') AND year BETWEEN 1950 AND 1990
-GROUP BY ALL
-ORDER BY year, region
+```sql crisis_timeline_ea
+WITH crisis_by_year AS (
+    SELECT
+      year,
+      CASE 
+        WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
+      END as region,
+      SUM(CurrencyCrisis) as currency, 
+      SUM(SovDebtCrisis) as sovereign_debt, 
+      SUM(BankingCrisis) as banking
+    FROM gmd
+    WHERE iso3 IN ('JPN', 'KOR') AND year BETWEEN 1950 AND 1990
+    GROUP BY ALL
+)
+SELECT year, region, 'Currency' as crisis_type, currency as crisis_count FROM crisis_by_year
+UNION ALL
+SELECT year, region, 'Sovereign debt' as crisis_type, sovereign_debt as crisis_count FROM crisis_by_year
+UNION ALL
+SELECT year, region, 'Banking' as crisis_type, banking as crisis_count FROM crisis_by_year
 ```
 
-<LineChart 
-    data={regional_comparison_gov_finance} 
-    x=year 
-    y=govexp_GDP 
-    series=region 
-    title='At first glance, both regions have had similar levels of government expenditure'
-    subtitle="Government Expenditure as a Share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
+```sql crisis_timeline_latam
+WITH crisis_by_year AS (
+    SELECT
+      year,
+      CASE 
+        WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
+      END as region,
+      SUM(CurrencyCrisis) as currency, 
+      SUM(SovDebtCrisis) as sovereign_debt, 
+      SUM(BankingCrisis) as banking
+    FROM gmd
+    WHERE iso3 IN ('BRA', 'ARG') AND year BETWEEN 1950 AND 1990
+    GROUP BY ALL
+)
+SELECT year, region, 'Currency' as crisis_type, currency as crisis_count FROM crisis_by_year
+UNION ALL
+SELECT year, region, 'Sovereign debt' as crisis_type, sovereign_debt as crisis_count FROM crisis_by_year
+UNION ALL
+SELECT year, region, 'Banking' as crisis_type, banking as crisis_count FROM crisis_by_year
+```
 
-
-```sql regional_comparison_investment
+```sql regional_comparison_govdebt
 select
   year,
   CASE
     WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
     WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
   END as region,
-  SUM(inv / USDfx) / SUM(nGDP / USDfx) as inv_GDP,
-  SUM(finv / USDfx) / SUM(nGDP / USDfx) as finv_GDP
+  SUM(govdebt_GDP * rGDP_USD) / SUM(rGDP_USD) / 100 as govdebt_GDP
 from gmd
-where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year between 1950 and 1990
+where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year BETWEEN 1950 and 1990
 GROUP BY ALL
 order by year, region
 ```
-
-<Grid cols=2>
-<Group>
-However, from the outset Japan and Korea invested heavily in their economies
-<LineChart 
-    data={regional_comparison_investment} 
-    x=year 
-    y=inv_GDP 
-    series=region 
-    subtitle="Investment as a Share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    yMax=0.5
-    downloadableData=false
-    downloadableImage=false
-/>
-</Group>
-<Group>
-  The gap is significant for fixed investments, which reflect long-term capital formation
-<LineChart 
-    data={regional_comparison_investment} 
-    x=year 
-    y=finv_GDP 
-    series=region 
-    subtitle="Fixed Direct Investment as a Share of GDP, 1950–2025" 
-    yFmt="0.0%"
-    yMax=0.5
-    downloadableData=false
-    downloadableImage=false
-/>    </Group>
-
-</Grid>
-
 
 ```sql regional_comparison_consumption
 select
@@ -227,520 +456,33 @@ GROUP BY ALL
 order by year, region
 ```
 
-<LineChart 
-    data={regional_comparison_consumption} 
-    x=year 
-    y=cons_GDP 
-    series=region 
-    title="Instead, Argentina and Brazil focused on consumption, which is unsustainable in the long run"
-    subtitle="Consumption as a Share of GDP, 1960-1990 (data only available from 1960)" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-```sql regional_comparison_govdebt
-select
-  year,
-  CASE
-    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
-  END as region,
-  SUM(govdebt_GDP * rGDP_USD) / SUM(rGDP_USD) / 100 as govdebt_GDP
-from gmd
-where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year between 1950 and 1990
-GROUP BY ALL
-order by year, region
-```
-
-<LineChart 
-    data={regional_comparison_govdebt} 
-    x=year 
-    y=govdebt_GDP 
-    series=region 
-    title="Government Debt as a Share of GDP, 1950–2000" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
 ```sql regional_comparison_m2
 with country_growth as (
     select
       year,
-      iso3,
       rGDP_USD,
-      M2 / lag(M2) over (partition by iso3 order by year) - 1 as m2_growth
-    from gmd
-    where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year between 1950 and 1990
-)
-select
-  year,
-  CASE
-    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
-  END as region,
-  SUM(m2_growth * rGDP_USD) / SUM(rGDP_USD) / 100as m2_growth
-from country_growth
-where m2_growth is not null
-group by year, region
-order by year, region
-```
-
-<LineChart 
-    data={regional_comparison_m2} 
-    x=year 
-    y=m2_growth 
-    series=region 
-    title="M2 Money Supply Growth (YoY), 1950–2025" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-```sql regional_comparison_reer
-select
-  year,
-  CASE
-    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
-  END as region,
-  SUM(REER * rGDP_USD) / SUM(rGDP_USD) as REER
-from gmd
-where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year between 1950 and 1990
-group by year, region
-order by year, region
-```
-
-<LineChart 
-    data={regional_comparison_reer} 
-    x=year 
-    y=REER 
-    series=region 
-    title="Real Effective Exchange Rate (REER), 1950–2025" 
-    yFmt="0.0"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-### Monetary Stability Hypothesis
-
-Expectation: LatAm had high, volatile infl and erratic interest rates. East Asia had low, stable inflation.
-
-```sql inflation_comparison_countries
-SELECT
-    year,
-    countryname,
-    (CASE
-        WHEN infl <= 0 THEN 0.001
-        ELSE infl
-    END) / 100 as infl
-FROM gmd
-WHERE iso3 IN ('ARG', 'BRA', 'JPN', 'KOR') 
-AND year BETWEEN 1950 AND 1990
-ORDER BY year, countryname
-```
-
-<LineChart
-    data={inflation_comparison_countries}
-    x=year
-    y=infl
-    series=countryname
-    title="Inflation (CPI, YoY)"
-    yFmt="0.0%"
-    ylog=true
-    downloadableData=false
-    downloadableImage=false
-/>
-
-```sql inflation_volatility
-SELECT
-    countryname,
-    STDDEV_SAMP(infl) as inflation_volatility
-FROM gmd
-WHERE iso3 IN ('ARG', 'BRA', 'JPN', 'KOR') AND year BETWEEN 1960 AND 1990
-GROUP BY countryname
-ORDER BY inflation_volatility DESC
-```
-
-<BarChart
-    data={inflation_volatility}
-    x=countryname
-    y=inflation_volatility
-    title="Inflation Volatility (Std. Dev. of YoY Inflation, 1960-1990)"
-/>
-
-```sql interest_rate_comparison
-SELECT
-    year,
-    countryname,
-    strate / 100 as strate
-FROM gmd
-WHERE iso3 IN ('ARG', 'BRA', 'JPN', 'KOR') AND year >= 1960
-ORDER BY year, countryname
-```
-
-<LineChart
-    data={interest_rate_comparison}
-    x=year
-    y=strate
-    series=countryname
-    title="Short-term Interest Rates"
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
----
-
-## 3. Productivity & Macro Stability (1990s–2000s)
-
-The consequences of these strategies became evident in productivity and macroeconomic stability. South Korea successfully transitioned into high-tech manufacturing, fostering productivity growth. The Latin American economies, in contrast, often battled high inflation and macroeconomic volatility, which hampered sustained productivity gains and structural transformation.
-
-```sql productivity_proxy
-with base as (
-  select
-    year,
-    CASE WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-         WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
-    END as region,
-    SUM(rGDP_USD) / nullif(SUM(pop), 0) as rgdp_pc_usd
-  from gmd
-  where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year between 1950 and 2025
-  GROUP BY ALL
-),
-growth as (
-  select
-    *,
-    (rgdp_pc_usd / lag(rgdp_pc_usd) over (partition by region order by year)) - 1 as yoy_growth
-  from base
-)
-select 
-    *,
-    avg(yoy_growth) over (partition by region order by year rows between 4 preceding and current row) as yoy_growth_5yr_avg
-from growth 
-where yoy_growth is not null 
-order by year
-```
-
-<LineChart 
-    data={productivity_proxy} 
-    x=year 
-    y=yoy_growth 
-    series=region 
-    title="Real GDP per Capita Growth (YoY), 1986-2010" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-```sql inflation_comparison
-select
-  year,
-  CASE 
-    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
-  END as region,
-  SUM(infl * rGDP_USD) / SUM(rGDP_USD) / 100 AS infl
-from gmd
-where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year between 1950 and 1990
-AND infl > 0
-GROUP BY ALL
-order by year, region
-```
-
-<LineChart 
-    data={inflation_comparison} 
-    x=year 
-    y=infl 
-    series=region 
-    title="Inflation (CPI, YoY), 1990–2010" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-```sql currency_crises_comparison
-SELECT
-  year,
-  CASE 
-    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
-  END as region,
-  SUM(CurrencyCrisis) as currency_crises, 
-  SUM(SovDebtCrisis) as sovereign_debt_crises, 
-  SUM(BankingCrisis) as banking_crises
-FROM gmd
-WHERE iso3 IN ('JPN', 'KOR', 'BRA', 'ARG') AND year BETWEEN 1950 AND 2025
-GROUP BY ALL
-ORDER BY year, region
-```
-
-<BarChart
-    data={currency_crises_comparison}
-    x=year
-    y=currency_crises
-    series=region
-    type=stacked
-    title="Number of Currency Crises"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<BarChart
-    data={currency_crises_comparison}
-    x=year
-    y=banking_crises
-    series=region
-    type=stacked
-    title="Number of Currency Crises"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<BarChart
-    data={currency_crises_comparison}
-    x=year
-    y=sovereign_debt_crises
-    series=region
-    type=stacked
-    title="Number of Currency Crises"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-# partial conclusions here
----
-
-## 4. Deeper Dive: Monetary Stability Hypothesis
-
-### A. Descriptive / Visual Tests
-
-#### Time Series Analysis
-Expectation: LatAm had high, volatile inflation and erratic interest rates. East Asia had low, stable inflation.
-
-```sql monetary_stability_timeseries
-WITH country_data as (
-    SELECT
-      year,
-      iso3,
-      nGDP / USDfx as nGDP_USD,
-      infl,
-      strate,
-      ltrate,
-      M2 / lag(M2) over (partition by iso3 order by year) - 1 as m2_growth
-    FROM gmd
-    WHERE iso3 IN ('JPN', 'KOR', 'BRA', 'ARG') AND year BETWEEN 1950 AND 1999
-)
-SELECT
-  year,
-  CASE
-    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
-    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
-  END as region,
-  SUM(m2_growth * nGDP_USD) / SUM(nGDP_USD) as m2_growth,
-  SUM(infl * nGDP_USD) / SUM(nGDP_USD) / 100 as infl,
-  SUM(strate * nGDP_USD) / SUM(nGDP_USD) / 100 as strate,
-  SUM(ltrate * nGDP_USD) / SUM(nGDP_USD) / 100 as ltrate
-FROM country_data
-WHERE nGDP_USD IS NOT NULL
-GROUP BY ALL
-ORDER BY year, region
-```
-
-<LineChart
-    data={monetary_stability_timeseries}
-    x=year
-    y=m2_growth
-    series=region
-    title="M2 Money Supply Growth (YoY), 1950-1999"
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<LineChart
-    data={monetary_stability_timeseries}
-    x=year
-    y=infl
-    series=region
-    title="Inflation (CPI, YoY), 1950-1999"
-    yFmt="0.0%"
-    yLog=true
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<LineChart
-    data={monetary_stability_timeseries}
-    x=year
-    y=strate
-    series=region
-    title="Short-Term Interest Rates, 1950-1999"
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<LineChart
-    data={monetary_stability_timeseries}
-    x=year
-    y=ltrate
-    series=region
-    title="Long-Term Interest Rates, 1950-1999"
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-#### Volatility Analysis
-
-```sql monetary_stability_volatility
-WITH regional_data as (
-    SELECT
-      year,
+      -- Assign the region to each row here, before the aggregation
       CASE
         WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
         WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
       END as region,
-      nGDP / USDfx as nGDP_USD,
-      infl,
-      strate,
-      M2 / lag(M2) over (partition by iso3 order by year) - 1 as m2_growth
-    FROM gmd
-    WHERE iso3 IN ('JPN', 'KOR', 'BRA', 'ARG') AND year BETWEEN 1950 AND 1999
-),
-weighted_data as (
-    SELECT
-      year,
-      region,
-      SUM(m2_growth * nGDP_USD) / SUM(nGDP_USD) as m2_growth,
-      SUM(infl * nGDP_USD) / SUM(nGDP_USD) as infl,
-      SUM(strate * nGDP_USD) / SUM(nGDP_USD) as strate
-    FROM regional_data
-    WHERE nGDP_USD IS NOT NULL
-    GROUP BY year, region
+      -- This calculation remains the same
+      (M2 / lag(M2) over (partition by iso3 order by year)) - 1 as m2_growth
+    from gmd
+    where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year BETWEEN 1950 and 1990
 )
-SELECT
-  floor(year / 10) * 10 as decade,
+select
+  year,
   region,
-  STDDEV_SAMP(m2_growth) as m2_growth_volatility,
-  STDDEV_SAMP(infl) as infl_volatility,
-  STDDEV_SAMP(strate) as strate_volatility
-FROM weighted_data
-GROUP BY ALL
-ORDER BY decade, region
+  -- Now you can group by region and calculate the weighted average
+  SUM(m2_growth * rGDP_USD) / SUM(rGDP_USD) as m2_growth
+from country_growth
+where m2_growth is not null
+group by year, region
+order by year, region;
 ```
 
-<BarChart
-    data={monetary_stability_volatility}
-    x=decade
-    y=m2_growth_volatility
-    series=region
-    type=grouped
-    title="Volatility of M2 Growth by Decade"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<BarChart
-    data={monetary_stability_volatility}
-    x=decade
-    y=infl_volatility
-    series=region
-    type=grouped
-    title="Volatility of Inflation by Decade"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<BarChart
-    data={monetary_stability_volatility}
-    x=decade
-    y=strate_volatility
-    series=region
-    type=grouped
-    title="Volatility of Short-Term Interest Rates by Decade"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-### B. Simple Correlation / Cross-Country Scatter
-
-```sql correlation_analysis
-WITH m2_growth_calc as (
-    SELECT
-        year,
-        iso3,
-        M2 / lag(M2) over (partition by iso3 order by year) - 1 as m2_growth,
-        rGDP_USD / pop as gdp_pc,
-        infl,
-        ltrate,
-        finv / nGDP as finv_gdp
-    FROM gmd
-    WHERE year BETWEEN 1960 AND 1990
-),
-growth_and_monetary as (
-    SELECT
-        iso3,
-        AVG(gdp_pc) as avg_gdp_pc,
-        AVG(m2_growth) as avg_m2_growth,
-        STDDEV_SAMP(infl) as infl_volatility,
-        AVG(ltrate) as avg_ltrate,
-        AVG(finv_gdp) as avg_finv_gdp
-    FROM m2_growth_calc
-    GROUP BY iso3
-)
-SELECT
-    g.iso3,
-    g.countryname,
-    gam.avg_gdp_pc,
-    gam.avg_m2_growth,
-    gam.infl_volatility,
-    gam.avg_ltrate,
-    gam.avg_finv_gdp
-FROM gmd g
-JOIN growth_and_monetary gam ON g.iso3 = gam.iso3
-WHERE g.year = 1990
-```
-
-<ScatterPlot
-    data={correlation_analysis}
-    x=avg_m2_growth
-    y=avg_gdp_pc
-    series=countryname
-    title="M2 Growth vs. GDP per Capita Growth"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<ScatterPlot
-    data={correlation_analysis}
-    x=infl_volatility
-    y=avg_gdp_pc
-    series=countryname
-    title="Inflation Volatility vs. GDP per Capita Growth"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<ScatterPlot
-    data={correlation_analysis}
-    x=avg_ltrate
-    y=avg_finv_gdp
-    series=countryname
-    title="Long-Term Interest Rates vs. Fixed Investment"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-# 5. Growth models don't last forever: how South Korea adapted and outgrew Japan
-
-Divergence between South Korea and Japan - why? [CHANGE COLOR PALETTE]
-
-South Korea keeps growing, while Japan stagnates. 
-
-```sql development_paths
+```sql development_paths_korea_japan
 SELECT
   year,
   countryname,
@@ -752,150 +494,88 @@ WHERE year >= 1950
 ORDER BY year, countryname
 ```
 
-<LineChart
-    data={development_paths}
-    x=year
-    y=rgdp_pc_usd
-    series=countryname
-    title='South Korea in particular has had an explosive growth trajectory'
-    subtitle="GDP per Capita, 1950-Present"
-    yFmt="$#,##0"
-    downloadableData=false
-    downloadableImage=false
-/>
----
-
-
-
-<LineChart 
-    data={regional_comparison_gov_finance} 
-    x=year 
-    y=govdebt_GDP 
-    series=region 
-    title="Government Debt as a Share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/> 
-
-<LineChart 
-    data={regional_comparison_gov_finance} 
-    x=year 
-    y=govrev_GDP 
-    series=region 
-    title="Government Revenue as a Share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>  
-
-<BarChart 
-    data={regional_comparison_gov_finance} 
-    x=year 
-    y=govtax_GDP 
-    series=region 
-    type=grouped
-    title="Government Tax Revenue as a Share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>  
-
-<LineChart 
-    data={regional_comparison_gov_finance} 
-    x=year 
-    y=govdef_GDP 
-    series=region 
-    title="Government Deficit as a Share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-
-<LineChart 
-    data={regional_comparison_external_sector} 
-    x=year 
-    y=exports_GDP 
-    series=region 
-    title="Exports as a Share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-<LineChart 
-    data={regional_comparison_external_sector} 
-    x=year 
-    y=imports_GDP 
-    series=region 
-    title="Imports as a Share of GDP, 1950–1990" 
-    yFmt="0.0%"
-    downloadableData=false
-    downloadableImage=false
-/>
-
-The story of economic development is often told as a story of divergence, where the rich get richer and the poor get poorer. But is this always the case? The chart below plots every country's position in the global income distribution in 1900 against its position in 2025.
-
-Countries on the diagonal line have maintained their relative rank. Most countries, as you can see, have not moved much. However, there are notable exceptions. South Korea, for example, has moved from the bottom of the distribution to the top, showing that incredible economic transformation is possible.
-
-```sql gdp_percentiles_1900_2025
-with base_1900 as (
-    select
-        iso3,
-        countryname,
-        rGDP_USD / pop as gdp_pc_1900,
-        cume_dist() over (order by rGDP_USD / pop) as percentile_rank_1900
-    from gmd
-    where year = 1950 and rGDP_USD is not null and pop is not null
-),
-base_2025 as (
-    select
-        iso3,
-        rGDP_USD / pop as gdp_pc_2025,
-        cume_dist() over (order by rGDP_USD / pop) as percentile_rank_2025
-    from gmd
-    where year = 2025 and rGDP_USD is not null and pop is not null
-)
+```sql regional_comparison_investment
 select
-    b1.iso3,
-    b1.countryname,
-    b1.percentile_rank_1900,
-    b2.percentile_rank_2025,
-    CASE
-        WHEN b1.iso3 IN ('USA', 'CAN', 'AUS', 'NZL', 'GBR', 'FRA', 'DEU', 'ITA', 'ESP', 'NLD', 'BEL', 'CHE', 'SWE', 'NOR', 'DNK', 'FIN', 'AUT', 'PRT', 'IRL', 'LUX') THEN 'Western Europe+USA+CAN+AUS+NZ'
-        WHEN b1.iso3 IN ('POL', 'CZE', 'SVK', 'HUN', 'ROU', 'BGR', 'SVN', 'HRV', 'SRB', 'BIH', 'MNE', 'MKD', 'ALB', 'EST', 'LVA', 'LTU') THEN 'CEE'
-        WHEN b1.iso3 IN ('ARG', 'BOL', 'BRA', 'CHL', 'COL', 'CRI', 'CUB', 'DOM', 'ECU', 'SLV', 'GTM', 'HND', 'MEX', 'NIC', 'PAN', 'PRY', 'PER', 'URY', 'VEN') THEN 'Latin America'
-        WHEN b1.iso3 IN ('NGA', 'EGY', 'ZAF', 'DZA', 'AGO', 'ETH', 'KEN', 'GHA', 'MAR', 'TZA', 'SDN', 'UGA', 'CIV', 'CMR', 'ZWE', 'ZMB') THEN 'Africa'
-    WHEN b1.iso3 IN ('USA', 'CAN', 'AUS', 'NZL', 'GBR', 'FRA', 'DEU', 'ITA', 'ESP', 'NLD', 'BEL', 'CHE', 'SWE', 'NOR', 'DNK', 'FIN', 'AUT', 'PRT', 'IRL', 'LUX') THEN 'Western Europe+USA+CAN+AUS+NZ'
-    WHEN b1.iso3 IN ('POL', 'CZE', 'SVK', 'HUN', 'ROU', 'BGR', 'SVN', 'HRV', 'SRB', 'BIH', 'MNE', 'MKD', 'ALB', 'EST', 'LVA', 'LTU') THEN 'CEE'
-    WHEN b1.iso3 IN ('ARG', 'BOL', 'BRA', 'CHL', 'COL', 'CRI', 'CUB', 'DOM', 'ECU', 'SLV', 'GTM', 'HND', 'MEX', 'NIC', 'PAN', 'PRY', 'PER', 'URY', 'VEN') THEN 'Latin America'
-    WHEN b1.iso3 IN ('NGA', 'EGY', 'ZAF', 'DZA', 'AGO', 'ETH', 'KEN', 'GHA', 'MAR', 'TZA', 'SDN', 'UGA', 'CIV', 'CMR', 'ZWE', 'ZMB') THEN 'Africa'
-    WHEN b1.iso3 IN ('JPN', 'KOR') THEN 'Japan+Korea'
-    WHEN b1.iso3 IN ('IDN', 'VNM', 'PHL', 'THA', 'MYS', 'SGP', 'MMR', 'KHM', 'LAO') THEN 'South East Asia'
-    WHEN b1.iso3 IN ('IND', 'PAK', 'BGD', 'LKA', 'NPL') THEN 'Indian Subcontinent'
-    WHEN b1.iso3 IN ('CHN', 'IRN', 'SAU', 'HKG', 'ISR', 'ARE', 'IRQ', 'QAT', 'KWT', 'OMN') THEN 'Other Asia'
-    ELSE 'ROW'
-END as region
-from base_1900 b1
-join base_2025 b2 on b1.iso3 = b2.iso3
+  year,
+  CASE
+    WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
+    WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
+  END as region,
+  SUM(inv / USDfx) / SUM(nGDP / USDfx) as inv_GDP,
+  SUM(finv / USDfx) / SUM(nGDP / USDfx) as finv_GDP
+from gmd
+where iso3 in ('JPN', 'KOR', 'BRA', 'ARG') and year BETWEEN 1950 and 1990
+GROUP BY ALL
+order by year, region
 ```
 
-<ScatterPlot
-    data={gdp_percentiles_1900_2025}
-    x=percentile_rank_1900
-    y=percentile_rank_2025
-    series=region
-    title="Global Economic Mobility, 1900 vs. 2025"
-    xFmt="0%"
-    yFmt="0%"
-    downloadableData=false
-    downloadableImage=false
-    >
-    <ReferenceLine y=x/>
-</ScatterPlot>
- 
-The rest of this page explores the story behind this divergence by comparing the East Asian model, represented by Japan and South Korea, with the model pursued by major Latin American economies: Brazil and Argentina.
+```sql fiscal_comparison_1950_1982
+WITH country_data AS (
+    SELECT
+        year,
+        iso3,
+        infl,
+        strate,
+        -- Calculate nGDP in USD for weighting
+        nGDP / USDfx as nGDP_USD,
+        -- Calculate M2 growth for each country before aggregation
+        (M2 / lag(M2) over (partition by iso3 order by year)) - 1 as m2_growth
+    FROM gmd
+    WHERE iso3 IN ('JPN', 'KOR', 'BRA', 'ARG') AND year BETWEEN 1950 AND 1982
+)
+SELECT
+    year,
+    CASE 
+        WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
+        WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
+    END as region,
+    -- Inflation, now correctly weighted by nGDP_USD
+    SUM(infl * nGDP_USD) / SUM(nGDP_USD) / 100 AS infl,
+    -- New: Weighted average for short-term interest rates
+    SUM(strate * nGDP_USD) / SUM(nGDP_USD) / 100 as strate,
+    -- New: Weighted average for M2 growth
+    SUM(m2_growth * nGDP_USD) / SUM(nGDP_USD) as m2_growth
+FROM country_data
+WHERE nGDP_USD IS NOT NULL
+GROUP BY ALL
+ORDER BY year, region
+```
 
+```sql fiscal_comparison_1983_1990
+WITH country_data AS (
+    SELECT
+        year,
+        iso3,
+        infl,
+        strate,
+        -- Calculate nGDP in USD for weighting
+        nGDP / USDfx as nGDP_USD,
+        -- Calculate M2 growth for each country before aggregation
+        (M2 / lag(M2) over (partition by iso3 order by year)) - 1 as m2_growth
+    FROM gmd
+    WHERE iso3 IN ('JPN', 'KOR', 'BRA', 'ARG') AND year BETWEEN 1983 AND 1990
+)
+SELECT
+    year,
+    CASE 
+        WHEN iso3 IN ('ARG', 'BRA') THEN 'Latin America'
+        WHEN iso3 IN ('JPN', 'KOR') THEN 'East Asia' 
+    END as region,
+    -- Inflation, now correctly weighted by nGDP_USD
+    SUM(infl * nGDP_USD) / SUM(nGDP_USD) / 100 AS infl,
+    -- New: Weighted average for short-term interest rates
+    SUM(strate * nGDP_USD) / SUM(nGDP_USD) / 100 as strate,
+    -- New: Weighted average for M2 growth
+    SUM(m2_growth * nGDP_USD) / SUM(nGDP_USD) as m2_growth
+FROM country_data
+WHERE nGDP_USD IS NOT NULL
+GROUP BY ALL
+ORDER BY year, region
 
-# Wanna see how your country did vs South Korea? Pick your country from the dropdown below, and get a summary file.
+```
+
+<small><small><i>¹ Technically this metric tracks both government and private consumption. It would be better to disaggregate these components, but as a proxy for overall state intervention patterns, it serves its purpose.</i></small></small>
+<br/>
+<small><small><i>² M2 was chosen over M1 because M1 only tracks cash and checking accounts, which misses the significant purchasing power held in easily accessible savings. M2 was chosen over M3 and M4 because both include large, institutional assets not closely tied to consumer spending, which can obscure the signal on inflation.</i></small></small>
+<br/>
+<small><small><i>³ Short-term rates were chosen due to the scarcity of both central bank and long-term interest rate data for Argentina. In any case, short-term rates are a robust metric: particularly in periods of high inflation, they reflect the real-time, extreme cost of capital plaguing a country's economy.</i></small></small>
