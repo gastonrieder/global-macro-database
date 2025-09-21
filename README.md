@@ -30,6 +30,8 @@ Just to conclude, I am no economist - I am sure my analysis could be scrutinised
 
 ## Visualisation/storytelling
 
-For the most part, I tried to limit the text and let the visuals tell the story. I like action-packed titles, callout boxes and reference points. These help users immediately focus on the main takeaway. I draw inspiration from the [Storytelling with Data book](https://www.storytellingwithdata.com/) and the [visual style guide](https://design-system.economist.com/documents/CHARTstyleguide_20170505.pdf) published by The Economist.
+For the most part, I tried to limit the text and let the visuals tell the story. I like action-packed titles, callout boxes and reference points. These help users immediately focus on the main takeaway. Indeed, you will find a summary of the whole analysis by reading the headers of each section \(like on the "on this page" section\). This is intentional.
+
+I draw inspiration from the [Storytelling with Data book](https://www.storytellingwithdata.com/) and the [visual style guide](https://design-system.economist.com/documents/CHARTstyleguide_20170505.pdf) published by The Economist.
 
 I pushed the SQL queries to the bottom, so users focus on the story first.
